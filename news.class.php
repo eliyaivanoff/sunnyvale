@@ -64,7 +64,7 @@ class News
         if ( empty($data) ) return false ;
         
         $sql = "UPDATE `news` SET `desc_short` = ".$this->dbQuote($data['desc_short']).
-               ", `desc_full = ".$this->dbQuote($data['desc_full']).
+               ", `desc_full` = ".$this->dbQuote($data['desc_full']).
                ", `added_time` = UNIX_TIMESTAMP(), `active` = ".$this->dbQuote($data['active']).
                " WHERE `news_id` = $data[news_id]"  ;
         $res = $this->dbExecute( $sql ) ;
@@ -99,11 +99,11 @@ class News
 * Try to connect to NEWS database
 */    
     private function dbConnect( $parm ) {
-        @$this->conn = mysql_connect( $parm['host'], $parm['user'], $parm['pass'], $parm['db'], $parm['port'] );
+        @$this->conn = mysql_connect( $parm['host'], $parm['user'], $parm['pass'], $parm['db'], $parm['port'] ) ;
 		
         if ( !$this->conn )
 		{
-			$this->dbError( "Cannot connect to NEWS database" );
+			$this->dbError( "Cannot connect to NEWS database" ) ;
 		}
         
         mysql_set_charset($this->conn, $parm['charset']) ;         
@@ -114,7 +114,7 @@ class News
     private function dbError( $message ) {
         $error = $message.": ".mysql_error();
         echo "<br /><br />";
-        echo "<p><b>Error!</b>&nbsp;$error</p>";
+        echo "<p><b>Error!</b>&nbsp;$error</p>" ;
     
         return false ;        
     }
@@ -122,7 +122,7 @@ class News
 * Exuqute query on NEWS database 
 */
 	private function dbExecute( $sql ){
-		$res = mysql_query( $this->conn, $sql );
+		$res = mysql_query( $this->conn, $sql ) ;
 	    return $res ;
 	}
 
@@ -141,7 +141,7 @@ class News
                         ENCODE(".$this->dbQuote($user['user_login'].", '".$this->$crypt."'))" ;
         $res = $this->dbExecute($sql) ;        
         
-        if ( !$res ) return $this->dbError( "Cannot add record INTO USERS table" )
+        if ( !$res ) return $this->dbError( "Cannot add record INTO USERS table" ) ;
         
         return $user['user_login'] ;
     
@@ -158,7 +158,7 @@ class News
         $sql = "SELECT DECODE(`user_pass`, '".$this->$crypt."') FROM `users' 
                  WHERE `user_login` = ".$this->dqQuote($user['user_login']) ;
         $res = $this->dbExecute($sql) ;
-        if ( $res === false ) return $this->dbError( "Cannot select record from USERS table" )
+        if ( $res === false ) return $this->dbError( "Cannot select record from USERS table" ) ;
         list( $pass ) =  mysql_fetch_row( $res ) ;
         
         if ( !$pass OR $pass != $user['user_pass'] ) return false ;
