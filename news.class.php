@@ -102,9 +102,9 @@ class News
         @$this->conn = mysql_connect( $parm['host'], $parm['user'], $parm['pass'], $parm['db'], $parm['port'] ) ;
 		
         if ( !$this->conn )
-		{
-			$this->dbError( "Cannot connect to NEWS database" ) ;
-		}
+	{
+		$this->dbError( "Cannot connect to NEWS database" ) ;
+	}
         
         mysql_set_charset($this->conn, $parm['charset']) ;         
     }   
@@ -122,7 +122,7 @@ class News
 * Exuqute query on NEWS database 
 */
 	private function dbExecute( $sql ){
-		$res = mysql_query( $this->conn, $sql ) ;
+	    $res = mysql_query( $this->conn, $sql ) ;
 	    return $res ;
 	}
 
@@ -138,7 +138,7 @@ class News
         
         $sql = "INSERT INTO `users`(`user_login`, `user_email`, `user_pass`)
                 VALUES(".$this->dbQuote($user['user_login'].", '$user[user_email]' ,
-                        ENCODE(".$this->dbQuote($user['user_login'].", '".$this->$crypt."'))" ;
+                ENCODE(".$this->dbQuote($user['user_login'].", '".$this->$crypt."'))" ;
         $res = $this->dbExecute($sql) ;        
         
         if ( !$res ) return $this->dbError( "Cannot add record INTO USERS table" ) ;
